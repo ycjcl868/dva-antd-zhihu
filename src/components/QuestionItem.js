@@ -1,30 +1,31 @@
 import React from 'react';
+import { connect } from 'dva';
 import { Row, Col, Button } from 'antd';
 
-import './style.less';
+import Style from '../routes/style.less';
 
-const QuestionItem = ({ props, dispatch }) => {
+const QuestionItem = ({ id, title, content, num, dispatch }) => {
   return (
-    <div className="item">
+    <div className={Style.item}>
       <Row gutter={8}>
         <Col span={2}>
           <Row>
             <Col>
-              <Button onClick={() => { dispatch({ type: 'app/voteUp' }); }} className="vote-btn up-btn" icon="caret-up" >
-                <p>{props.num}</p>
+              <Button onClick={() => { dispatch({ type: 'app/voteUp', payload: { id, num: num + 1 } }); }} className={Style.up_btn} icon="caret-up" >
+                <p>{num}</p>
               </Button>
 
             </Col>
           </Row>
           <Row>
             <Col>
-              <Button onClick={() => { dispatch({ type: 'app/voteDown' }); }} className="vote-btn down-btn" icon="caret-down" />
+              <Button onClick={() => { dispatch({ type: 'app/voteDown', payload: { id, num: num - 1 } }); }} className={Style.down_btn} icon="caret-down" />
             </Col>
           </Row>
         </Col>
         <Col span={22}>
-          <h1>{props.title}</h1>
-          <p>{props.content}</p>
+          <h1>{title}</h1>
+          <p>{content}</p>
 
         </Col>
       </Row>
@@ -35,4 +36,4 @@ const QuestionItem = ({ props, dispatch }) => {
 QuestionItem.propTypes = {
 };
 
-export default QuestionItem;
+export default connect()(QuestionItem);
